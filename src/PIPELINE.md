@@ -9,12 +9,13 @@ When a message (text or transcribed voice) arrives from Pastor, check for keywor
 - **Recibimiento:** "recibimiento", "recibir paciente", "entrega".
 
 ## 2. Context Retrieval & Global Headers
-- Reilly automatically populates global fields in every template:
-    - `{{ fecha }}`: Current date (e.g., 01/03/2026).
-    - `{{ hora }}`: Current time (e.g., 00:30).
+- Reilly automatically populates global fields in every template (Statics):
+    - `{{ fecha }}`: Current date.
+    - `{{ hora }}`: Current time.
     - `{{ doctor_nombre }}`: "Dr. Pastor Soto".
-    - `{{ especialidad }}`: "Medicina Interna (Residente)".
-- Use `read_docx.py` to read the relevant template from `templates/`.
+    - `{{ especialidad }}`: "Medicina Interna".
+    - `{{ hospital }}`: "Hospital Universitario de los Andes (IAHULA)".
+- Use sanitized templates from `templates/` (Identifiers removed).
 
 ## 3. Extraction & Global Metadata Mapping
 - **Identity:** `{{ nombre_paciente }}`, `{{ cedula }}`, `{{ edad }}`, `{{ sexo }}`.
