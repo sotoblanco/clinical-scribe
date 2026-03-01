@@ -8,14 +8,18 @@ When a message (text or transcribed voice) arrives from Pastor, check for keywor
 - **Evolución:** "evolución", "evolutiva", "nota diaria", "seguimiento".
 - **Recibimiento:** "recibimiento", "recibir paciente", "entrega".
 
-## 2. Context Retrieval
-- Use `read_docx.py` to read the relevant template from `clinical_projects/templates/`.
-- **Ingreso Template:** `1. MODELO DE INGRESO.docx`
-- **Evolución Template:** `472 - Evolutiva - copia.docx`
-- **Recibimiento Template:** `NOTA DE RECIBIMIENTO JOHANA URDANETA.docx`
+## 2. Context Retrieval & Global Headers
+- Reilly automatically populates global fields in every template:
+    - `{{ fecha }}`: Current date (e.g., 01/03/2026).
+    - `{{ hora }}`: Current time (e.g., 00:30).
+    - `{{ doctor_nombre }}`: "Dr. Pastor Soto".
+    - `{{ especialidad }}`: "Medicina Interna (Residente)".
+- Use `read_docx.py` to read the relevant template from `templates/`.
 
-## 3. Extraction & Structuring
-- Map the transcribed text to the fields identified in the template.
+## 3. Extraction & Global Metadata Mapping
+- **Identity:** `{{ nombre_paciente }}`, `{{ cedula }}`, `{{ edad }}`, `{{ sexo }}`.
+- **Vitals:** `{{ ta }}`, `{{ fc }}`, `{{ fr }}`, `{{ temp }}`, `{{ sao2 }}`.
+- **Logic:** Map the transcribed text to the fields identified in the template.
 - Use Spanish medical terminology.
 - Maintain a "Draft State" for the current patient.
 
