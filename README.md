@@ -3,18 +3,27 @@
 
 The **Automated Clinical Scribe** is a production-grade pipeline designed to solve one of the most significant bottlenecks in healthcare: documentation burnout. 
 
-This repository serves as the **Public Technical Documentation & Architectural Roadmap** for the project. To protect patient privacy (HIPAA/Data Ethics), the core medical processing logic and private hospital templates are maintained in a secure, non-public environment.
-
 ---
 
-## 🏗️ Architecture & Logic
+## 🏗️ Architecture & Pipeline
 The scribe uses a metadata-driven approach to transform raw, unstructured inputs (voice-to-text, quick telegram/whatsapp notes) into structured, pathologically accurate hospital documents.
 
-### **The Pipeline:**
+### **The Pipeline Flow:**
+
+```mermaid
+graph TD
+    A[Raw Input: WhatsApp/Telegram] --> B{Inference Engine: Modal + Llama 3}
+    B --> C[Structured JSON Metadata]
+    C --> D[Template Selector]
+    D --> E[Template Engine: docxtpl + Jinja2]
+    E --> F[Final Clinical Document: .docx]
+    F --> G[Secure Storage / Backup]
+```
+
 1.  **Input Ingestion:** Capturing raw clinical observations in the field (ER, ICU, Rounds).
 2.  **Context Injection:** Mapping clinical jargon to standardized medical terminology (Spanish/Venezuelan context).
-3.  **Inference Engine:** Utilizing **vLLM (Llama 3 8B)** hosted on **Modal** for high-speed, cost-effective processing.
-4.  **Template Rendering:** Populating literal hospital templates using `docxtpl` and `Jinja2`, preserving professional formatting and branding.
+3.  **Inference Engine:** Utilizing **vLLM (Llama 3 8B)** hosted on **Modal** for high-speed processing.
+4.  **Template Rendering:** Populating sanitized hospital templates using `docxtpl` and `Jinja2`.
 
 ---
 
@@ -22,7 +31,14 @@ The scribe uses a metadata-driven approach to transform raw, unstructured inputs
 - **Inference:** vLLM, Modal (Serverless GPU).
 - **Backend:** Python, FastAPI, Pydantic.
 - **Rendering:** Docxtpl, Jinja2.
-- **Evaluations:** Custom Hamel-style eval framework for clinical safety and output reliability.
+- **Evaluations:** Custom Hamel-style eval framework.
+
+---
+
+## 📁 Project Structure
+- `src/`: Core logic for the inference pipeline and document generation.
+- `templates/`: Sanitized `.docx` templates used for rendering clinical documents.
+- `docs/`: Technical documentation and evaluation framework details.
 
 ---
 
@@ -30,7 +46,7 @@ The scribe uses a metadata-driven approach to transform raw, unstructured inputs
 In medicine, "almost right" is dangerous. Our evaluation framework focuses on:
 - **Pathological Consistency:** Does the assessment match the clinical findings?
 - **Entity Extraction:** Accurate mapping of medications, dosages, and vital signs.
-- **Structural Integrity:** Ensuring the final DOCX meets hospital requirements for admission and orders.
+- **Structural Integrity:** Ensuring the final DOCX meets hospital requirements.
 
 ---
 
@@ -45,4 +61,4 @@ In medicine, "almost right" is dangerous. Our evaluation framework focuses on:
 ## 🐶 About the Project
 Developed by **Pastor Soto (MD & AI/ML Engineer)** as part of a mission to build the "Missing Middle" in healthcare technology.
 
-*Note: This repository does not contain PHI (Protected Health Information) or private medical datasets.*
+*Disclaimer: This repository is for technical demonstration and version control of the pipeline logic. It does not contain Protected Health Information (PHI) or private patient datasets.*
